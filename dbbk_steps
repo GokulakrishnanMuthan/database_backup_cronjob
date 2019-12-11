@@ -1,0 +1,41 @@
+
+
+1. Database backup automatically using cron job
+2. mkdir crondb-bk
+3. cd crondb-bk
+4. create the shell script file -> touch crondb.sh
+
+  paste the following code 
+	
+		#!/bin/sh
+		now="$(date +'%d_%m_%Y_%H_%M_%S')"  
+		filename="fitness_$now.sql".gz  
+		backupfolder="/opt/cron-dbbk/" 
+		fullpathbackupfile="$backupfolder/$filename"
+		mysqldump --user=dbusername --password=dbpassword  --default-character-set=utf8 databasename --databases | gzip > "$fullpathbackupfile"
+		echo "mysqldump finished at " 
+		exit 0
+
+	save file 
+
+	then give permission to excute file 
+
+5. chmod +x  filename.sh
+6. crontab -e -> edit the cron (choose nano editor)
+7. add the time and file name with full path 
+	
+		*/2 * * * *  /opt/cron-dbbk/crondbbk.sh
+	
+	then save (ctrl+x)
+	
+8. check the crontab -l (list the all cron jobs)
+9.  restart the cron
+		sudo service cron restart
+10. now every 2 mins excute the job
+11. cron maker url
+	http://www.cronmaker.com/
+
+
+
+
+ 
